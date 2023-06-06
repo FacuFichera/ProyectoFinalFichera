@@ -36,6 +36,8 @@ const fetchData = async()=>{
 	}
 }
 
+
+
 const pintarCard = data=>{
 	data.forEach(item => {
 		templateCard.querySelector('h5').textContent = item.title
@@ -123,7 +125,23 @@ const pintarFooter = () => {
 			carrito = {}
 			pintarCarrito()
 		})
+		const alerta = document.querySelector('#alerta','vaciar-carrito')
+		alerta.addEventListener('click', () => {
+		
+		toastr.success('Su compra a sido exitosa. Muchas Gracias!', 'ESTADO DE COMPRA', {
+			"progressBar": true
+		})
+		carrito = {}
+		pintarCarrito();
+		
+	})
 	}
+
+
+	
+
+
+
 
 
 const btnAccion = e =>{
@@ -146,6 +164,8 @@ const btnAccion = e =>{
 		pintarCarrito()
 
 	}
+	
 
 	e.stopPropagation()
 }
+

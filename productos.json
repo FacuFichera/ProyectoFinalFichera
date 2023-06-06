@@ -27,19 +27,19 @@
 		"precio": 14000,
 		"id": 5,
 		"title": "REMERA OVERSIZE HOMBRE",
-		"thumbnailUrl": "imgs/remeraO.jpg"
+		"thumbnailUrl": "imgs/RemeraO.jpg"
 	},
 	{
 		"precio": 13000,
 		"id": 6,
 		"title": "REMERA OVERSIZE MUJER",
-		"thumbnailUrl": "imgs/remeraM.jpg"
+		"thumbnailUrl": "imgs/RemeraM.jpg"
 	},
 	{
 		"precio": 15000,
 		"id": 7,
 		"title": "SHORT ENTRENAMIENTO KAPPA 2023",
-		"thumbnailUrl": "imgs/shortE.jpg"
+		"thumbnailUrl": "imgs/ShortE.jpg"
 	},
 	{
 		"precio": 17000,
@@ -51,7 +51,7 @@
 		"precio": 13500,
 		"id": 9,
 		"title": "BERMUDA URBANA 2023",
-		"thumbnailUrl": "imgs/bermudaO.jpg"
+		"thumbnailUrl": "imgs/BermudaO.jpg"
 	},
 	{
 		"precio": 10000,
@@ -63,19 +63,19 @@
 		"precio": 28000,
 		"id": 11,
 		"title": "BUZO MUJER URBANO 2023",
-		"thumbnailUrl": "imgs/buzoM.jpg"
+		"thumbnailUrl": "imgs/BuzoM.jpg"
 	},
 	{
 		"precio": 45000,
 		"id": 12,
 		"title": "CAMPERA INFLADA 2023",
-		"thumbnailUrl": "imgs/campera.jpg"
+		"thumbnailUrl": "imgs/Campera.jpg"
 	},
 	{
 		"precio": 59000,
 		"id": 13,
 		"title": "CAMPERON 2023",
-		"thumbnailUrl": "imgs/camperon.jpg"
+		"thumbnailUrl": "imgs/Camperon.jpg"
 	},
 	{
 		"precio": 17500,

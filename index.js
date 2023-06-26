@@ -3,47 +3,22 @@ const tbody = document.querySelector(".tbody")
 let carrito = [];
 
 botones_comprar.forEach(btn => {
-    btn.addEventListener("click", agregar_producto_carrito);
+    btn.addEventListener("click", AgregarProducto);
 })
+function Gls() {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
 
-function agregar_producto_carrito(e) {
-    const boton = e.target;
-    // Buscando el contenedor del botón
-    const padreBoton = boton.parentNode.parentNode.parentNode;
-    // Seleccionando cada parte del producto
-    const producto_nombre = padreBoton.querySelector(".card-title").textContent;
-    const producto_precio = padreBoton.querySelector(".precio").textContent;
-    const producto_imagen = padreBoton.querySelector(".card-img-top").src;
-
-    const nuevo_producto = {
-        title: producto_nombre,
-        precio: producto_precio,
-        img: producto_imagen,
-        cantidad: 1
-    }
-
-    alerta_agregar()
-    agregarAlCarrito(nuevo_producto);
 }
 
-function agregarAlCarrito(nuevo_producto) {
-
-    const InputElemento = tbody.getElementsByClassName("input__elemento")
-    for (let i = 0; i < carrito.length; i++) {
-        if (carrito[i].title.trim() === nuevo_producto.title.trim()) {
-            carrito[i].cantidad++;
-            const inputValue = InputElemento[i]
-            inputValue.value++
-            sumatoria_carrito()
-            return null
-        }
+window.onload = function () {
+    let storage = JSON.parse(localStorage.getItem("carrito"))
+    if (storage) {
+        carrito = storage;
+        MostrarCarrito();
     }
-
-    carrito.push(nuevo_producto);
-    optimizar_carrito();
 }
 
-function optimizar_carrito() {
+function MostrarCarrito() {
     tbody.innerHTML = "";
     carrito.map(producto => {
         const tr = document.createElement("tr");
@@ -65,15 +40,48 @@ function optimizar_carrito() {
         tr.innerHTML = Contenido;
         tbody.append(tr)
 
-        tr.querySelector(".delete").addEventListener("click", eliminar_producto_carrito);
-        tr.querySelector(".input__elemento").addEventListener("change", suma_la_cantidad);
+        tr.querySelector(".delete").addEventListener("click", EliminarProducto);
+        tr.querySelector(".input__elemento").addEventListener("change", SumarCant);
     })
 
-    sumatoria_carrito()
+    TotalCarrito()
 
 }
+function AgregarProducto(e) {
+    const boton = e.target;
+    const padreBoton = boton.parentNode.parentNode.parentNode;
+    const producto_nombre = padreBoton.querySelector(".card-title").textContent;
+    const producto_precio = padreBoton.querySelector(".precio").textContent;
+    const producto_imagen = padreBoton.querySelector(".card-img-top").src;
 
-function sumatoria_carrito() {
+    const nuevo_producto = {
+        title: producto_nombre,
+        precio: producto_precio,
+        img: producto_imagen,
+        cantidad: 1
+    }
+
+    A_agregar()
+    agregarAlCarrito(nuevo_producto);
+}
+
+function agregarAlCarrito(nuevo_producto) {
+
+    const InputElemento = tbody.getElementsByClassName("input__elemento")
+    for (let i = 0; i < carrito.length; i++) {
+        if (carrito[i].title.trim() === nuevo_producto.title.trim()) {
+            carrito[i].cantidad++;
+            const inputValue = InputElemento[i]
+            inputValue.value++
+            TotalCarrito()
+            return null
+        }
+    }
+
+    carrito.push(nuevo_producto);
+    MostrarCarrito();
+}
+function TotalCarrito() {
     let total = 0;
     const carritoTotal = document.querySelector(".carritoTotal");
     carrito.forEach((producto) => {
@@ -82,10 +90,10 @@ function sumatoria_carrito() {
     })
     carritoTotal.innerHTML = `Total $${total}`
 
-    guardarLocalStorage()
+    Gls()
 }
 
-function eliminar_producto_carrito(e) {
+function EliminarProducto(e) {
     const boton_eliminar = e.target;
     const tr = boton_eliminar.parentNode.parentNode;
     const title = tr.querySelector(".title").textContent;
@@ -95,11 +103,11 @@ function eliminar_producto_carrito(e) {
         }
     }
     tr.remove();
-    sumatoria_carrito();
-    alerta_eliminar()
+    TotalCarrito();
+    A_Elimiar()
 }
 
-function suma_la_cantidad(e) {
+function SumarCant(e) {
     const suma_input = e.target;
     const tr = suma_input.parentNode.parentNode;
     const title = tr.querySelector(".title").textContent;
@@ -108,24 +116,21 @@ function suma_la_cantidad(e) {
             suma_input.value < 1 ? (suma_input.value = 1) : suma_input.value;
             producto.cantidad = suma_input.value;
         }
-        sumatoria_carrito();
+        TotalCarrito();
     })
 }
 
-function guardarLocalStorage() {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
+let boton_compra = document.getElementById("boton-comprar")
+boton_compra.addEventListener("click", A_comprar)
+boton_compra.addEventListener("click", BorrarCarrito)
 
+function BorrarCarrito() {
+    tbody.innerHTML = "";
+    carrito = [];
+    TotalCarrito()
 }
 
-window.onload = function () {
-    let storage = JSON.parse(localStorage.getItem("carrito"))
-    if (storage) {
-        carrito = storage;
-        optimizar_carrito();
-    }
-}
-
-function alerta_agregar() {
+function A_agregar() {
     Swal.fire({
         title: "Producto añadido.",
         width: "50%",
@@ -135,8 +140,7 @@ function alerta_agregar() {
         color: "info",
     })
 }
-
-function alerta_compra() {
+function A_comprar() {
     Swal.fire({
         icon: "success",
         title: "Muchas gracias por su compra!Con esto ayuda al club!",
@@ -147,19 +151,7 @@ function alerta_compra() {
     })
 }
 
-let boton_compra = document.getElementById("boton-comprar")
-
-
-boton_compra.addEventListener("click", alerta_compra)
-boton_compra.addEventListener("click", borrar_carrito)
-
-function borrar_carrito() {
-    tbody.innerHTML = "";
-    carrito = [];
-    sumatoria_carrito()
-}
-
-function alerta_eliminar() {
+function A_Elimiar() {
     Swal.fire({
         icon: "error",
         title: "Producto eliminado.",
@@ -168,7 +160,7 @@ function alerta_eliminar() {
         confirmButtonColor: "info"
     })
 }
-
+//API DE GOOGLE MAPS//
 
 function iniciarMap(){
     var coord = {lat:-34.6679267 ,lng: -58.3700112};
